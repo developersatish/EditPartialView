@@ -1,0 +1,87 @@
+﻿@model PartialEdit.Models.DataModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">API</th>
+                <th scope="col">AUTH</th>
+                <th scope="col">Desc</th>
+                <th scope="col">Http</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.entries.Take(15))
+            {
+                <tr>
+                    <th scope="row">@item.ID</th>
+                    <td>@item.API</td>
+                    <td>@item.Auth</td>
+                    <td>@item.Description</td>
+                    <td>@Html.CheckBoxFor(m => m.entries[item.ID].HTTPS, new { @class= "isEdit",@id=item.ID, data_itemid = item.ID }) @item.ID</td>
+                    <td>@Html.Action("ListItem", "Home", new { id = Model.entries.ElementAt(item.ID).ID, assignedTo = "hello@world.com" })</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Edit in Bulk
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("Edit", new PartialEdit.Models.AssignHelpRequest { Id = 1, AssignedTo = "john@dk.com" })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="subData">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#subData').click(() => {
+            const checks = $('.isEdit:checkbox:checked');
+            let ids = [];
+            for (var i = 0; i < checks.length; i++) {
+                const dt = checks[i].id;
+                ids.push(dt);                
+            }
+
+            const s = $('#AssignedTo :selected').text();            
+            let data = {
+                Ids: ids,
+                AssinedTo: s
+            };
+
+            console.log(data);
+
+            $.post('/Home/Save', data, (res) => {
+                alert('Done')
+            });
+        });
+    </script>
+}

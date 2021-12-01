@@ -1,0 +1,26 @@
+﻿
+
+@model PartialEdit.Models.AssignHelpRequest
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        @Html.MandatoryLabelFor(model => model.AssignedTo)
+        @Html.DropDownListFor(model => model.AssignedTo, new SelectList(Model.UserList))<br />
+        @Html.ValidationMessageFor(model => model.AssignedTo)
+    </div>
+
+    @Html.AntiForgeryToken()
+
+    <style>
+        .field-validation-error {
+            margin: 0;
+        }
+
+        select {
+            width: 280px;
+            max-width: 280px;
+        }
+    </style>
+
+}
