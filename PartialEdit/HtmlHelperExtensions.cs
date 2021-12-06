@@ -19,13 +19,18 @@ namespace PartialEdit
     public static class HtmlHelperExtensions
     {
         public static MvcHtmlString DialogFormLink(this HtmlHelper htmlHelper, string linkText, string actionUrl,
-            string dialogTitle)
+            string dialogTitle,bool isbutton=false)
         {
             var builder = new TagBuilder("a");
             builder.SetInnerText(linkText);
             builder.Attributes.Add("href", actionUrl);
             builder.Attributes.Add("data-dialog-title", dialogTitle);
             builder.AddCssClass("dialogLink");
+            if (isbutton)
+            {
+                builder.Attributes.Add("style", "text-decoration: none;");
+            }
+            
 
             return new MvcHtmlString(builder.ToString());
         }

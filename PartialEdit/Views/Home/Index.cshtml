@@ -26,19 +26,27 @@
                     <td>@item.API</td>
                     <td>@item.Auth</td>
                     <td>@item.Description</td>
-                    <td>@Html.CheckBoxFor(m => m.entries[item.ID].HTTPS, new { @class= "isEdit",@id=item.ID, data_itemid = item.ID }) @item.ID</td>
-                    <td>@Html.Action("ListItem", "Home", new { id = Model.entries.ElementAt(item.ID).ID, assignedTo = "hello@world.com" })</td>
+                    <td>@Html.CheckBoxFor(m => m.entries[item.ID].HTTPS, new { @class = "isEdit", @id = item.ID, data_itemid = item.ID }) @item.ID</td>
+                    <td>@Html.Action("ListItem", "Home", new { id = Model.entries.ElementAt(item.ID).ID, assignedTo = "hello@world.com",isbutton=false})</td>
                 </tr>
             }
 
         </tbody>
     </table>
 </div>
+<style>
+   
+</style>
+
+<button type="button" class="btn btn-default" id="button-bulk">
+    @Html.Action("ListItem", "Home", new { id = 1, assignedTo = "Assign", isbutton=true })
+</button>
 
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
     Edit in Bulk
 </button>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,26 +70,29 @@
 </div>
 
 @section scripts{
+
     <script>
-        $('#subData').click(() => {
-            const checks = $('.isEdit:checkbox:checked');
-            let ids = [];
-            for (var i = 0; i < checks.length; i++) {
-                const dt = checks[i].id;
-                ids.push(dt);                
-            }
+        $('#button-bulk').click(function (e) {
+            e.preventDefault();
+            $(this).find("a").click();
+            //const checks = $('.isEdit:checkbox:checked');
+            //let ids = [];
+            //for (var i = 0; i < checks.length; i++) {
+            //    const dt = checks[i].id;
+            //    ids.push(dt);
+            //}
 
-            const s = $('#AssignedTo :selected').text();            
-            let data = {
-                Ids: ids,
-                AssinedTo: s
-            };
+            //const s = $('#AssignedTo :selected').text();
+            //let data = {
+            //    Ids: ids,
+            //    AssinedTo: s
+            //};
 
-            console.log(data);
+            //console.log(data);
 
-            $.post('/Home/Save', data, (res) => {
-                alert('Done')
-            });
+            //$.post('/Home/Save', data, (res) => {
+            //    alert('Done')
+            //});
         });
     </script>
 }

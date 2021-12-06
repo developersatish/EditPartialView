@@ -1,4 +1,4 @@
 ﻿
 @model PartialEdit.Models.AssignHelpRequest
 
-@Html.DialogFormLink(Model.AssignedTo, Url.Action("Edit", new { id = Model.Id, assignedTo = Model.AssignedTo }), "Help Request Assign")
+@Html.DialogFormLink(Model.AssignedTo, Url.Action("Edit", new { id = Model.Id, assignedTo = Model.AssignedTo }), "Help Request Assign", Model.IsButton)

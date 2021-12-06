@@ -29,11 +29,12 @@ namespace PartialEdit.Controllers
             return View();
         }
 
-        public ActionResult ListItem(int id, string assignedTo)
+        public ActionResult ListItem(int id, string assignedTo,bool isbutton)
         {
             var model = new AssignHelpRequest
             {
                 Id = id,
+                IsButton=isbutton,
                 AssignedTo = !string.IsNullOrEmpty(assignedTo) ? assignedTo : "DK"
             };
 
@@ -48,6 +49,33 @@ namespace PartialEdit.Controllers
                 AssignedTo = assignedTo
             };
 
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(AssignHelpRequest model)
+        {            
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var ids = Request.Form["selectedids"];
+                    if (!string.IsNullOrEmpty(ids))
+                    {
+                        string[] users = ids.Split(',');
+                    }
+                    // _studentRepository.AssignHelpRequest(model.Id, model.AssignedTo);
+                    return Json(new { success = true });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("AssignedTo", ex.Message);
+                }
+            }
+
+           // model.UserList = GetAssignedToList();
             return PartialView(model);
         }
 

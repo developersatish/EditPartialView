@@ -10,10 +10,11 @@ namespace PartialEdit.Models
         public AssignHelpRequest()
         {
             this.UserList = this.GetAssignedToList();
+            this.IsButton = false;
         }
         public int Id { get; set; }
         public string AssignedTo { get; set; }
-
+        public bool IsButton { get; set; }
         public IList<string> UserList { get; set; }
         private List<string> GetAssignedToList()
         {
